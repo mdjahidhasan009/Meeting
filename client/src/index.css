@@ -1,0 +1,177 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+.card {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  border-radius: 4px;
+  padding: 1rem;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 25vw;
+  transform: translate(-50%, -50%);
+}
+
+.cardHeader {
+  background: #1946ce;
+  padding: 0.75rem 1.5rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: inline-block;
+  position: absolute;
+  top: -1rem;
+  left: -0.75rem;
+}
+
+.cardBody {
+  margin-top: 2rem;
+}
+
+label {
+  color: black;
+}
+
+input {
+  padding-bottom: 5px;
+}
+
+button {
+  background: #0acd1d;
+  border: none;
+  padding: 10px 0;
+  margin-top: 10px;
+  border-radius: 2px;
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.fa-paper-plane {
+  color: white;
+  margin-top: 25px;
+}
+
+/*Room CSS*/
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#video-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+video {
+  width: 300px;
+  padding: 2px;
+}
+
+.main {
+  height: 100vh;
+  display: flex;
+}
+
+.main__left {
+  flex: 0.8;
+  display: flex;
+  flex-direction: column;
+}
+
+.main__right {
+  flex: 0.2;
+}
+
+.main__videos {
+  flex-grow: 1;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main__controls {
+  display: flex;
+  background-color: #1C1E20;
+  color: #D2D2D2;
+  padding: 5px;
+  justify-content: space-between;
+}
+
+.main__controls__block {
+  display: flex;
+}
+
+.main__controls__button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 10px;
+  min-width: 80px;
+  cursor: pointer;
+}
+
+.main__controls__button i {
+  font-size: 24px;
+}
+
+.main__controls__button:hover {
+  background-color: #343434;
+  border-radius: 5px;
+}
+
+.leave_meeting {
+  margin-top: 12px;
+  color: red;
+}
+
+.main__right {
+  display: flex;
+  flex-direction: column;
+  background-color: #242324;
+  border-left: 1px solid #3D3D42;
+}
+
+.main__header {
+  color: #F5F5F5;
+  text-align: center;
+}
+
+.main__chat__window {
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.main__message__container {
+  padding: 22px 12px;
+  display: flex;
+}
+
+.main__message__container input {
+  flex-grow: 1;
+  background-color: transparent;
+  border: none;
+  color: #F5F5F5;
+}
+
+.messages {
+  color: white;
+  list-style: none;
+}
+
+.unmute, .stop {
+  color: #CC3B33;
+}
