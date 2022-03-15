@@ -12,6 +12,14 @@ code {
     monospace;
 }
 
+.p0 {
+  padding: 0 !important;
+}
+
+.row {
+  margin: 0;
+  padding: 0;
+}
 
 .card {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -20,7 +28,6 @@ code {
   position: fixed;
   left: 50%;
   top: 50%;
-  width: 25vw;
   transform: translate(-50%, -50%);
 }
 
@@ -91,11 +98,8 @@ video {
   flex-direction: column;
 }
 
-.main__right {
-  flex: 0.2;
-}
-
 .main__videos {
+  height: calc(100% - 67px);
   flex-grow: 1;
   background-color: black;
   display: flex;
@@ -104,6 +108,7 @@ video {
 }
 
 .main__controls {
+  height: 67px;
   display: flex;
   background-color: #1C1E20;
   color: #D2D2D2;
@@ -139,8 +144,6 @@ video {
 }
 
 .main__right {
-  display: flex;
-  flex-direction: column;
   background-color: #242324;
   border-left: 1px solid #3D3D42;
 }
@@ -153,9 +156,12 @@ video {
 .main__chat__window {
   flex-grow: 1;
   overflow-y: scroll;
+  height: calc(100% - 110px);
 }
 
 .main__message__container {
+  position: absolute;
+  bottom: 0;
   padding: 22px 12px;
   display: flex;
 }
@@ -170,8 +176,18 @@ video {
 .messages {
   color: white;
   list-style: none;
+  margin: 0;
+}
+
+.messages p {
+  overflow-wrap: break-word;
 }
 
 .unmute, .stop {
   color: #CC3B33;
+}
+
+.room,
+.room .col {
+  height: 100vh;
 }

@@ -6,17 +6,24 @@ const server = http.createServer(app);
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const path = require('path');
 
 const User = require('./models/UserModal');
 
 const PORT = 8000;
 
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     origin: process.env.CORS_ORIGIN
 }));
 
+app.use(express.static(path.join('public')));
 app.use('/user', require('./routes/user'));
 
 //Database connection
@@ -29,6 +36,10 @@ mongoose.connection.on('error', error => {
 })
 mongoose.connection.once('open', ()=> {
     console.log('Mongodb connected!');
+})
+
+app.use((req, res, next) => {
+    res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 })
 
 server.listen(process.env.PORT || PORT, () => {

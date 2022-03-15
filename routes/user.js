@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/UserModal');
 
@@ -30,6 +30,8 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log(email);
+        console.log(password);
         const user = await User.findOne({ email });
         if(!user) return res.status(400).json({ message: 'Email or password does not match' });
         const isMatch = await bcrypt.compare(password, user.password);

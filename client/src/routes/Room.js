@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, createRef } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
 import { useHistory } from "react-router-dom";
-import M from "materialize-css";
+// import M from "materialize-css";
 
 import Video from './Video';
 
@@ -85,11 +85,11 @@ const Room = (props) => {
 
     useEffect(() => {
         //checking is user logged in or not(if user has no token means not logged in)
-        const token = localStorage.getItem('Token');
-        if(!token) {
-            M.toast({ html: 'Login first', classes:'red'});
-            history.push('/login');
-        }
+        // const token = localStorage.getItem('Token');
+        // if(!token) {
+        //     M.toast({ html: 'Login first', classes:'red'});
+        //     history.push('/login');
+        // }
         //eslint-disable-next-line
     }, []);
 
@@ -102,7 +102,6 @@ const Room = (props) => {
         });
         webcamStream.current = await getWebcamStream();
         userVideo.current.srcObject = webcamStream.current;
-        console.log(webcamStream.current.getAudioTracks()[0].enabled);
         if(!webcamStream.current.getAudioTracks()[0].enabled) webcamStream.current.getAudioTracks()[0].enabled = true;
     }
 
@@ -164,13 +163,21 @@ const Room = (props) => {
         const screenCaptureVideoStreamTrack = screenCaptureStream.current.getVideoTracks()[0]; //taking video track of stream
         //replacing video track of each peer connected with getDisplayMedia video track and audio will remain as it is
         //as all browser does not return audio track with getDisplayMedia
-        peers.map(peer => {
+        // peers.map(peer => {
+        //     peer.peer.replaceTrack(
+        //         peer.peer.streams[0].getVideoTracks()[0],
+        //         screenCaptureVideoStreamTrack,
+        //         peer.peer.streams[0]
+        //     )
+        // })
+
+        peers.map(peer => (
             peer.peer.replaceTrack(
                 peer.peer.streams[0].getVideoTracks()[0],
                 screenCaptureVideoStreamTrack,
                 peer.peer.streams[0]
             )
-        })
+        ))
         //destroying previous stream video track
         const previousWebcamStream = userVideo.current.srcObject;
         const previousWebcamStreamTracks = previousWebcamStream.getTracks();
@@ -224,7 +231,8 @@ const Room = (props) => {
         screenCaptureStream.current = null;
     }
 
-    const sendMessage = () => {
+    const sendMessage = (e) => {
+        e.preventDefault();
         //sending message text with roomId to sever it will send message along other data to all connected user of current room
         if(socketRef.current) {
             socketRef.current.emit('sendMessage', {
@@ -263,8 +271,8 @@ const Room = (props) => {
 
     return (
         <>
-            <div className="main">
-                <div className="main__left">
+            <div className="room row">
+                <div className="col s10 p0">
                     <div className="main__videos">
                         <div id="video-grid">
                             <video muted ref={userVideo} autoPlay playsInline />
@@ -309,21 +317,21 @@ const Room = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className="main__right">
+                <div className="col s2 p0 main__right">
                     <div className="main__header">
                         <h6>Chat</h6>
                     </div>
                     <div className="main__chat__window">
                         <ul className="messages">
                             {messages.map((message, index) => (
-                                <li key={index}>{message.name}({message.username}):{message.message}</li>
+                                <p key={index}>{message.name}({message.username}):{message.message}</p>
                             ))}
                         </ul>
                     </div>
-                    <div className="main__message__container">
+                    <form  onSubmit={sendMessage} className="main__message__container">
                         <input ref={messageRef} id="chat_message" type="text" placeholder="Type message here..." />
                         <i onClick={sendMessage} className="fa fa-paper-plane" />
-                    </div>
+                    </form>
                 </div>
             </div>
         </>

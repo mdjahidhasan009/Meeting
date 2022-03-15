@@ -9,21 +9,30 @@ const LoginPage = (props) => {
     const loginUser = () => {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
+        // M.toast({ html: 'Email:' + email, classes:'red'});
+        // M.toast({ html: 'Password:' + password, classes:'red'});
 
         axios
             .post(process.env.REACT_APP_BASE_URL + "/user/login", {
                 email,
                 password,
             })
+            // }, {withCredentials: true})
             .then((response) => {
+                // M.toast({ html: 'Token:' + "eeeee", classes:'red'});
+                M.toast({ html: 'Token:' + response.data, classes:'red'});
                 localStorage.setItem("Token", response.data);
                 M.toast({html: 'Login Successful', classes: 'green'});
                 props.history.push("/");
             })
             .catch((err) => {
                 console.log(err)
+                if(err && err.response) M.toast({ html: 'Error:' + err.toString(), classes:'red'});
+                if(err && err.response && err.response.data)
+                    M.toast({ html: 'Error:' + err.response.data.message.toString() + "88\n", classes:'red'});
+                M.toast({ html: '11Error:' + err.toString(), classes:'red'});
                 if(err.response && err.response.data) console.log(err.response.data.message);
-                // M.toast({html: err.response.data.message, classes: 'red'});
+                M.toast({html: err?.response?.data?.message, classes: 'red'});
             });
     };
 
