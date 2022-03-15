@@ -12,11 +12,6 @@ const User = require('./models/UserModal');
 
 const PORT = 8000;
 
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-// });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
@@ -74,11 +69,6 @@ io.on('connection', socket => {
     socket.on("joinRoom", roomId=> {
         console.log('Joined roomId: ' + roomId + " socketId: " + socket.id + ' userId: ' + socket.userId);
         if (usersInRoom[roomId]) {
-            // const length = usersInRoom[roomId].length;
-            // if (length === 4) {
-            //     socket.emit("room full");
-            //     return;
-            // }
             usersInRoom[roomId].push(socket.id);
         } else {
             usersInRoom[roomId] = [socket.id];

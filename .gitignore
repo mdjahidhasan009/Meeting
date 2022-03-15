@@ -1,7 +1,8 @@
 /client/.env
 /client/build
-/client/node_modules
+/client/node_modules/
 
 public
-node_modules
+node_modules/
 .env
+.idea
