@@ -1,18 +1,18 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import CreateRoom from "./routes/CreateRoom";
-import Room from "./routes/Room";
-import LoginPage from "./routes/LoginPage";
-import RegisterPage from "./routes/RegisterPage";
+import DashboardScreen from "./screens/DashboardScreen";
+import RoomScreen from "./screens/RoomScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={CreateRoom} />
-        <Route path="/login" exact component={LoginPage} />
-        <Route path="/register" exact component={RegisterPage} />
-        <Route path="/room/:roomId" component={Room} />
+        <Route path="/" exact component={DashboardScreen} />
+        <Route path="/login" exact component={LoginScreen} />
+        <Route path="/register" exact component={RegisterScreen} />
+        <Route path="/room/:roomId" component={RoomScreen} />
       </Switch>
     </BrowserRouter>
   );

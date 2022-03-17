@@ -1,16 +1,17 @@
 import React from "react";
 import axios from "axios";
 import M from 'materialize-css';
+import { useHistory } from 'react-router-dom';
 
-const LoginPage = (props) => {
+const LoginScreen = (props) => {
     const emailRef = React.createRef();
     const passwordRef = React.createRef();
+    const history = useHistory();
 
-    const loginUser = () => {
+    const loginUser = (e) => {
+        e.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
-        // M.toast({ html: 'Email:' + email, classes:'red'});
-        // M.toast({ html: 'Password:' + password, classes:'red'});
 
         axios
             .post(process.env.REACT_APP_BASE_URL + "/user/login", {
@@ -19,18 +20,16 @@ const LoginPage = (props) => {
             })
             // }, {withCredentials: true})
             .then((response) => {
-                // M.toast({ html: 'Token:' + "eeeee", classes:'red'});
-                M.toast({ html: 'Token:' + response.data, classes:'red'});
                 localStorage.setItem("Token", response.data);
                 M.toast({html: 'Login Successful', classes: 'green'});
-                props.history.push("/");
+                history.push("/");
             })
             .catch((err) => {
                 console.log(err)
                 if(err && err.response) M.toast({ html: 'Error:' + err.toString(), classes:'red'});
                 if(err && err.response && err.response.data)
                     M.toast({ html: 'Error:' + err.response.data.message.toString() + "88\n", classes:'red'});
-                M.toast({ html: '11Error:' + err.toString(), classes:'red'});
+                M.toast({ html: 'Error:' + err.toString(), classes:'red'});
                 if(err.response && err.response.data) console.log(err.response.data.message);
                 M.toast({html: err?.response?.data?.message, classes: 'red'});
             });
@@ -39,7 +38,7 @@ const LoginPage = (props) => {
     return (
         <div className="card">
             <div className="cardHeader">Login</div>
-            <div className="cardBody">
+            <form className="cardBody" onSubmit={loginUser}>
                 <div className="inputGroup">
                     <label htmlFor="email">Email</label>
                     <input
@@ -60,10 +59,11 @@ const LoginPage = (props) => {
                         ref={passwordRef}
                     />
                 </div>
-                <button onClick={loginUser}>Login</button>
-            </div>
+                <button>Login</button>
+                <button onClick={() => history.push('/register')}>Create A New Account</button>
+            </form>
         </div>
     );
 };
 
-export default LoginPage;
+export default LoginScreen;

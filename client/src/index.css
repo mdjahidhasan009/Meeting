@@ -32,7 +32,7 @@ code {
 }
 
 .cardHeader {
-  background: #1946ce;
+  background: #0087ff;
   padding: 0.75rem 1.5rem;
   border-radius: 2px;
   text-transform: uppercase;
@@ -71,7 +71,7 @@ button {
   margin-top: 25px;
 }
 
-/*Room CSS*/
+/*RoomScreen CSS*/
 body {
   margin: 0;
   padding: 0;
@@ -79,11 +79,13 @@ body {
 
 #video-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 video {
+  object-fit: fill;
   width: 300px;
+  height: 220px;
   padding: 2px;
 }
 
@@ -98,7 +100,7 @@ video {
   flex-direction: column;
 }
 
-.main__videos {
+.videos__users-video {
   height: calc(100% - 67px);
   flex-grow: 1;
   background-color: black;
@@ -107,7 +109,7 @@ video {
   align-items: center;
 }
 
-.main__controls {
+.videos__controls {
   height: 67px;
   display: flex;
   background-color: #1C1E20;
@@ -116,11 +118,11 @@ video {
   justify-content: space-between;
 }
 
-.main__controls__block {
+.control {
   display: flex;
 }
 
-.main__controls__button {
+.control__btn-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -129,11 +131,11 @@ video {
   cursor: pointer;
 }
 
-.main__controls__button i {
+.control__btn-container i {
   font-size: 24px;
 }
 
-.main__controls__button:hover {
+.control__btn-container:hover {
   background-color: #343434;
   border-radius: 5px;
 }
@@ -143,30 +145,30 @@ video {
   color: red;
 }
 
-.main__right {
+.chat {
   background-color: #242324;
   border-left: 1px solid #3D3D42;
 }
 
-.main__header {
+.chat__header {
   color: #F5F5F5;
   text-align: center;
 }
 
-.main__chat__window {
+.chat__msg-container {
   flex-grow: 1;
   overflow-y: scroll;
   height: calc(100% - 110px);
 }
 
-.main__message__container {
+.chat__msg-send-container {
   position: absolute;
   bottom: 0;
   padding: 22px 12px;
   display: flex;
 }
 
-.main__message__container input {
+.chat__msg-send-container input {
   flex-grow: 1;
   background-color: transparent;
   border: none;

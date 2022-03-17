@@ -4,7 +4,7 @@ import { v1 as uuid } from "uuid";
 
 import M from 'materialize-css';
 
-const CreateRoom = (props) => {
+const DashboardScreen = (props) => {
     let history = useHistory();
 
     const create = () => {
@@ -36,4 +36,4 @@ const CreateRoom = (props) => {
     );
 };
 
-export default CreateRoom;
+export default DashboardScreen;

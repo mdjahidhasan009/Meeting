@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import M from "materialize-css";
 
-const RegisterPage = (props) => {
+const RegisterScreen = (props) => {
     const nameRef = React.createRef();
     const usernameRef = React.createRef();
     const emailRef = React.createRef();
@@ -82,9 +82,10 @@ const RegisterPage = (props) => {
                     />
                 </div>
                 <button onClick={registerUser}>Register</button>
+                <button onClick={() => history.push('/login')}>Login</button>
             </div>
         </>
     );
 };
 
-export default RegisterPage;
+export default RegisterScreen;

@@ -18,7 +18,9 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN
 }));
 
-app.use(express.static(path.join('public')));
+//For deploy only
+// app.use(express.static(path.join('public')));
+
 app.use('/user', require('./routes/user'));
 
 //Database connection
@@ -33,9 +35,11 @@ mongoose.connection.once('open', ()=> {
     console.log('Mongodb connected!');
 })
 
-app.use((req, res, next) => {
-    res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
-})
+//for deploy only
+
+// app.use((req, res, next) => {
+//     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+// })
 
 server.listen(process.env.PORT || PORT, () => {
     console.log('server is running on port ' + PORT)
@@ -76,7 +80,7 @@ io.on('connection', socket => {
         socketToRoom[socket.id] = roomId;
         const usersInThisRoom = usersInRoom[roomId].filter(id => id !== socket.id);
         socket.join(roomId); //for message
-        socket.emit("usersInRoom", usersInThisRoom); //send all socket id connected to this room
+        socket.emit("usersInRoom", usersInThisRoom); //sending all socket id already joined user in this room
     });
 
     //client send this signal to sever and sever will send to other user of peerId(callerId is peer id)

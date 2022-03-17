@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState, createRef } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
 import { useHistory } from "react-router-dom";
-// import M from "materialize-css";
+import M from "materialize-css";
 
-import Video from './Video';
+import Video from '../component/Video';
 
-const Room = (props) => {
+const RoomScreen = (props) => {
     const [ peers, setPeers ] = useState([]); //state for rendering and also have stream of peers
     const socketRef = useRef(); //own socket
     const userVideo = useRef(); //for display own video
@@ -22,10 +22,11 @@ const Room = (props) => {
 
     useEffect(() => {
         connectToSocketAndWebcamStream().then(() => {
-            socketRef.current.emit("joinRoom", roomId); //sending to the server that an user joined to a room
-            //server send array of socket id of other user of same room so that new user can connect with other user via
+            socketRef.current.emit("joinRoom", roomId); //sending to the server that a user joined to a room
+
+            //server send array of socket id's of other user of same room so that new user can connect with other user via
             //simple-peer for video transmission and message will be served using socket io
-            socketRef.current.on("usersInRoom", users => {
+            socketRef.current.on("usersInRoom", users => { //triggered in server and here receiving it
                 const peers = [];
                 users.forEach(otherUserSocketId => {
                     //creating connection between two user via simple-peer for video
@@ -80,16 +81,18 @@ const Room = (props) => {
                 setPeers(peers);
             });
         });
+
+        return () => stopAllVideoAudioMedia();
         //eslint-disable-next-line
     }, []);
 
     useEffect(() => {
         //checking is user logged in or not(if user has no token means not logged in)
-        // const token = localStorage.getItem('Token');
-        // if(!token) {
-        //     M.toast({ html: 'Login first', classes:'red'});
-        //     history.push('/login');
-        // }
+        const token = localStorage.getItem('Token');
+        if(!token) {
+            M.toast({ html: 'Login first', classes:'red'});
+            history.push('/login');
+        }
         //eslint-disable-next-line
     }, []);
 
@@ -160,17 +163,11 @@ const Room = (props) => {
     const shareScreen = async () => {
         //getting screen video
         screenCaptureStream.current = await navigator.mediaDevices.getDisplayMedia({ cursor: true });
-        const screenCaptureVideoStreamTrack = screenCaptureStream.current.getVideoTracks()[0]; //taking video track of stream
+        //taking video track of stream
+        const screenCaptureVideoStreamTrack = screenCaptureStream.current.getVideoTracks()[0];
+
         //replacing video track of each peer connected with getDisplayMedia video track and audio will remain as it is
         //as all browser does not return audio track with getDisplayMedia
-        // peers.map(peer => {
-        //     peer.peer.replaceTrack(
-        //         peer.peer.streams[0].getVideoTracks()[0],
-        //         screenCaptureVideoStreamTrack,
-        //         peer.peer.streams[0]
-        //     )
-        // })
-
         peers.map(peer => (
             peer.peer.replaceTrack(
                 peer.peer.streams[0].getVideoTracks()[0],
@@ -194,19 +191,27 @@ const Room = (props) => {
         });
     }
 
-    const startWebCamVideo = async () => {
+    //Stopping webcam and screen media and audio also
+    const stopAllVideoAudioMedia = async () => {
         //destroying previous stream(webcam stream)
         const previousWebcamStream = webcamStream.current;
         const previousWebcamStreamTracks = previousWebcamStream.getTracks();
         previousWebcamStreamTracks.forEach(track => {
             track.stop();
         });
+
         //destroying previous stream(screen capture stream)
         const previousScreenCaptureStream = screenCaptureStream.current;
-        const previousScreenCaptureStreamTracks = previousScreenCaptureStream.getTracks();
-        previousScreenCaptureStreamTracks.forEach(track => {
-            track.stop();
-        });
+        if(previousScreenCaptureStream) {
+            const previousScreenCaptureStreamTracks = previousScreenCaptureStream.getTracks();
+            previousScreenCaptureStreamTracks.forEach(track => {
+                track.stop();
+            });
+        }
+    }
+
+    const startWebCamVideo = async () => {
+        await stopAllVideoAudioMedia();
 
         const newWebcamStream = await getWebcamStream(); //getting webcam video and audio
         const videoStreamTrack = newWebcamStream.getVideoTracks()[0]; //taking video track of stream
@@ -270,72 +275,74 @@ const Room = (props) => {
     };
 
     return (
-        <>
-            <div className="room row">
-                <div className="col s10 p0">
-                    <div className="main__videos">
-                        <div id="video-grid">
-                            <video muted ref={userVideo} autoPlay playsInline />
-                                {peers.map((peer) => (
-                                    <Video controls key={peer.peerId} peer={peer} />
-                                ))}
-                        </div>
-                    </div>
-                    <div className="main__controls">
-                        <div className="main__controls__block">
-                            <div onClick={muteOrUnmuteAudio} className="main__controls__button main__mute__button">
-                                {isAudioMuted
-                                    ? <i className="unmute fas fa-microphone-slash" />
-                                    : <i className="fas fa-microphone" />
-                                }
-                                {isAudioMuted
-                                    ? <span>Unmute</span>
-                                    : <span>Mute</span>
-                                }
-                            </div>
-                            <div onClick={playOrStopVideo} className="main__controls__button main__video-grid_button">
-                                {isVideoMuted
-                                    ? <i className="stop fas fa-video-slash" />
-                                    : <i className="fas fa-video" />
-                                }
-                                {isVideoMuted
-                                    ? <span>Play Video</span>
-                                    : <span>Stop Video</span>
-                                }
-                            </div>
-                        </div>
-                        <div onClick={shareScreen} className="main__controls__block">
-                            <div className="main__controls__button">
-                                <i className="fas fa-shield-alt" />
-                                <span>Share Screen</span>
-                            </div>
-                        </div>
-                        <div onClick={leaveMeeting} className="main__controls__block">
-                            <div className="main__controls__button">
-                                <span className="leave_meeting">Leave Meeting</span>
-                            </div>
-                        </div>
+        <div className="room row">
+            <div className="videos col s10 p0">
+                <div className="videos__users-video">
+                    <div id="video-grid">
+                        <video muted ref={userVideo} autoPlay playsInline />
+                            {peers.map((peer) => (
+                                <Video controls key={peer.peerId} peer={peer} />
+                            ))}
                     </div>
                 </div>
-                <div className="col s2 p0 main__right">
-                    <div className="main__header">
-                        <h6>Chat</h6>
+
+                <div className="videos__controls">
+                    <div className="control">
+                        <div onClick={muteOrUnmuteAudio} className="control__btn-container">
+                            {isAudioMuted
+                                ? <i className="unmute fas fa-microphone-slash" />
+                                : <i className="fas fa-microphone" />
+                            }
+                            {isAudioMuted
+                                ? <span>Unmute</span>
+                                : <span>Mute</span>
+                            }
+                        </div>
+                        <div onClick={playOrStopVideo} className="control__btn-container">
+                            {isVideoMuted
+                                ? <i className="stop fas fa-video-slash" />
+                                : <i className="fas fa-video" />
+                            }
+                            {isVideoMuted
+                                ? <span>Play Video</span>
+                                : <span>Stop Video</span>
+                            }
+                        </div>
                     </div>
-                    <div className="main__chat__window">
-                        <ul className="messages">
-                            {messages.map((message, index) => (
-                                <p key={index}>{message.name}({message.username}):{message.message}</p>
-                            ))}
-                        </ul>
+                    <div onClick={shareScreen} className="control">
+                        <div className="control__btn-container">
+                            <i className="fas fa-shield-alt" />
+                            <span>Share Screen</span>
+                        </div>
                     </div>
-                    <form  onSubmit={sendMessage} className="main__message__container">
-                        <input ref={messageRef} id="chat_message" type="text" placeholder="Type message here..." />
-                        <i onClick={sendMessage} className="fa fa-paper-plane" />
-                    </form>
+                    <div onClick={leaveMeeting} className="control">
+                        <div className="control__btn-container">
+                            <span className="leave_meeting">Leave Meeting</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </>
+
+
+            <div className="chat col s2 p0">
+                <div className="chat__header">
+                    <h6>Chat</h6>
+                </div>
+                <div className="chat__msg-container">
+                    <ul className="messages">
+                        {messages.map((message, index) => (
+                            <p key={index}>{message.name}({message.username}):{message.message}</p>
+                        ))}
+                    </ul>
+                </div>
+                <form  onSubmit={sendMessage} className="chat__msg-send-container">
+                    <input ref={messageRef} type="text" placeholder="Type message here..." />
+                    <i onClick={sendMessage} className="fa fa-paper-plane" />
+                </form>
+            </div>
+        </div>
+
     );
 };
 
-export default Room;
+export default RoomScreen;
