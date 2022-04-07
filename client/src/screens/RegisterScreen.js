@@ -36,55 +36,58 @@ const RegisterScreen = (props) => {
     };
 
     return (
-        <>
-            <div className="card">
-                <div className="cardHeader">Register</div>
-                <div className="cardBody">
-                    <div className="inputGroup">
-                        <label htmlFor="name">Name</label>
+        <div className="container">
+            <div className="card-container">
+                <div className="card">
+                    <div className="card__header">Register</div>
+                    <div className="card__body">
+                        <div className="input-group">
+                            <label htmlFor="name">Name</label>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                placeholder="John Doe"
+                                ref={nameRef}
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="username">UserName</label>
+                            <input
+                                type="text"
+                                name="username"
+                                id="username"
+                                placeholder="John Doe"
+                                ref={usernameRef}
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                placeholder="abc@example.com"
+                                ref={emailRef}
+                            />
+                        </div>
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="password">Password</label>
                         <input
-                            type="text"
-                            name="name"
-                            id="name"
-                            placeholder="John Doe"
-                            ref={nameRef}
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Your Password"
+                            ref={passwordRef}
                         />
                     </div>
-                    <div className="inputGroup">
-                        <label htmlFor="username">UserName</label>
-                        <input
-                            type="text"
-                            name="username"
-                            id="username"
-                            placeholder="John Doe"
-                            ref={usernameRef}
-                        />
-                    </div>
-                    <div className="inputGroup">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            placeholder="abc@example.com"
-                            ref={emailRef}
-                        />
-                    </div>
+                    <button onClick={registerUser}>Register</button>
+                    <button onClick={() => history.push('/login')}>Login</button>
                 </div>
-                <div className="inputGroup">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="Your Password"
-                        ref={passwordRef}
-                    />
-                </div>
-                <button onClick={registerUser}>Register</button>
-                <button onClick={() => history.push('/login')}>Login</button>
+
             </div>
-        </>
+        </div>
     );
 };
 

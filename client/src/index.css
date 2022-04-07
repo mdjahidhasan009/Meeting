@@ -12,27 +12,51 @@ code {
     monospace;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  min-height: 500px;
+  height: 100%;
+}
+
+main {
+  height: calc(100% - 64px); /*Navbar height is 64px*/
+}
+
 .p0 {
   padding: 0 !important;
 }
 
-.row {
-  margin: 0;
-  padding: 0;
+nav {
+  background-color: #0087ffe6;
+}
+
+.container {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .card {
+  display: inline-block;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   border-radius: 4px;
   padding: 1rem;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
 }
 
-.cardHeader {
-  background: #0087ff;
+.card__header {
+  background: #0087ffe6;
   padding: 0.75rem 1.5rem;
   border-radius: 2px;
   text-transform: uppercase;
@@ -44,16 +68,8 @@ code {
   left: -0.75rem;
 }
 
-.cardBody {
+.card__body {
   margin-top: 2rem;
-}
-
-label {
-  color: black;
-}
-
-input {
-  padding-bottom: 5px;
 }
 
 button {
@@ -64,132 +80,4 @@ button {
   border-radius: 2px;
   width: 100%;
   text-transform: uppercase;
-}
-
-.fa-paper-plane {
-  color: white;
-  margin-top: 25px;
-}
-
-/*RoomScreen CSS*/
-body {
-  margin: 0;
-  padding: 0;
-}
-
-#video-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-video {
-  object-fit: fill;
-  width: 300px;
-  height: 220px;
-  padding: 2px;
-}
-
-.main {
-  height: 100vh;
-  display: flex;
-}
-
-.main__left {
-  flex: 0.8;
-  display: flex;
-  flex-direction: column;
-}
-
-.videos__users-video {
-  height: calc(100% - 67px);
-  flex-grow: 1;
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.videos__controls {
-  height: 67px;
-  display: flex;
-  background-color: #1C1E20;
-  color: #D2D2D2;
-  padding: 5px;
-  justify-content: space-between;
-}
-
-.control {
-  display: flex;
-}
-
-.control__btn-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8px 10px;
-  min-width: 80px;
-  cursor: pointer;
-}
-
-.control__btn-container i {
-  font-size: 24px;
-}
-
-.control__btn-container:hover {
-  background-color: #343434;
-  border-radius: 5px;
-}
-
-.leave_meeting {
-  margin-top: 12px;
-  color: red;
-}
-
-.chat {
-  background-color: #242324;
-  border-left: 1px solid #3D3D42;
-}
-
-.chat__header {
-  color: #F5F5F5;
-  text-align: center;
-}
-
-.chat__msg-container {
-  flex-grow: 1;
-  overflow-y: scroll;
-  height: calc(100% - 110px);
-}
-
-.chat__msg-send-container {
-  position: absolute;
-  bottom: 0;
-  padding: 22px 12px;
-  display: flex;
-}
-
-.chat__msg-send-container input {
-  flex-grow: 1;
-  background-color: transparent;
-  border: none;
-  color: #F5F5F5;
-}
-
-.messages {
-  color: white;
-  list-style: none;
-  margin: 0;
-}
-
-.messages p {
-  overflow-wrap: break-word;
-}
-
-.unmute, .stop {
-  color: #CC3B33;
-}
-
-.room,
-.room .col {
-  height: 100vh;
 }

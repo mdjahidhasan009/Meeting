@@ -4,9 +4,12 @@ import Peer from "simple-peer";
 import { useHistory } from "react-router-dom";
 import M from "materialize-css";
 
-import Video from '../component/Video';
+import Video from '../../components/Video';
+import useAuthenticated from "../../hooks/useAuthentication";
+import "./RoomScreen.css";
 
 const RoomScreen = (props) => {
+    const isAuthenticated = useAuthenticated();
     const [ peers, setPeers ] = useState([]); //state for rendering and also have stream of peers
     const socketRef = useRef(); //own socket
     const userVideo = useRef(); //for display own video
@@ -19,6 +22,14 @@ const RoomScreen = (props) => {
     const [ isAudioMuted, setIsAudioMuted ] = useState(false);
     const [ messages, setMessages ] = useState([]); //all messages state after joining the room
     const history = useHistory();
+
+    useEffect(() => {
+        if(!isAuthenticated) {
+            M.toast({ html: 'Login first', classes:'red' });
+            props.history.push('/login');
+        }
+        //eslint-disable-next-line
+    }, [isAuthenticated]);
 
     useEffect(() => {
         connectToSocketAndWebcamStream().then(() => {
@@ -86,15 +97,6 @@ const RoomScreen = (props) => {
         //eslint-disable-next-line
     }, []);
 
-    useEffect(() => {
-        //checking is user logged in or not(if user has no token means not logged in)
-        const token = localStorage.getItem('Token');
-        if(!token) {
-            M.toast({ html: 'Login first', classes:'red'});
-            history.push('/login');
-        }
-        //eslint-disable-next-line
-    }, []);
 
     const connectToSocketAndWebcamStream = async() => {
         //connecting to server using socket
@@ -123,14 +125,17 @@ const RoomScreen = (props) => {
             config: {
                 iceServers: [
                     {
-                        urls: "stun:numb.viagenie.ca",
-                        username: "sultan1640@gmail.com",
-                        credential: "98376683"
+                        urls: process.env.REACT_APP_GOOGLE_STUN_SERVER
                     },
                     {
-                        urls: "turn:numb.viagenie.ca",
-                        username: "sultan1640@gmail.com",
-                        credential: "98376683"
+                        urls: process.env.REACT_APP_TURN_SERVER1_NAME,
+                        username: process.env.REACT_APP_TURN_SERVER1_USERNAME,
+                        credential: process.env.REACT_APP_TURN_SERVER1_PASSWORD
+                    },
+                    {
+                        urls: process.env.REACT_APP_TURN_SERVER2_NAME,
+                        username: process.env.REACT_APP_TURN_SERVER2_USERNAME,
+                        credential: process.env.REACT_APP_TURN_SERVER2_PASSWORD
                     }
                 ]
             },

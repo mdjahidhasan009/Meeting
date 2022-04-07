@@ -21,8 +21,9 @@ const LoginScreen = (props) => {
             // }, {withCredentials: true})
             .then((response) => {
                 localStorage.setItem("Token", response.data);
+                console.log(localStorage.getItem("Token"));
                 M.toast({html: 'Login Successful', classes: 'green'});
-                history.push("/");
+                props.history.push("/");
             })
             .catch((err) => {
                 console.log(err)
@@ -36,32 +37,38 @@ const LoginScreen = (props) => {
     };
 
     return (
-        <div className="card">
-            <div className="cardHeader">Login</div>
-            <form className="cardBody" onSubmit={loginUser}>
-                <div className="inputGroup">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="abc@example.com"
-                        ref={emailRef}
-                    />
+        <div className="container">
+            <div className="card-container">
+                <div className="card">
+                    <div className="card__header">Login</div>
+                    <form className="card__body" onSubmit={loginUser}>
+                        <div className="input-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                placeholder="abc@example.com"
+                                ref={emailRef}
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                placeholder="Your Password"
+                                ref={passwordRef}
+                            />
+                        </div>
+                        <button>Login</button>
+                        <button onClick={() => history.push('/register')}>Create A New Account</button>
+                    </form>
                 </div>
-                <div className="inputGroup">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="Your Password"
-                        ref={passwordRef}
-                    />
-                </div>
-                <button>Login</button>
-                <button onClick={() => history.push('/register')}>Create A New Account</button>
-            </form>
+
+
+            </div>
         </div>
     );
 };
