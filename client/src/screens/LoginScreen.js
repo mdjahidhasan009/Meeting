@@ -26,12 +26,11 @@ const LoginScreen = (props) => {
                 props.history.push("/");
             })
             .catch((err) => {
-                console.log(err)
                 if(err && err.response) M.toast({ html: 'Error:' + err.toString(), classes:'red'});
-                if(err && err.response && err.response.data)
+                else if(err && err.response && err.response.data)
                     M.toast({ html: 'Error:' + err.response.data.message.toString() + "88\n", classes:'red'});
-                M.toast({ html: 'Error:' + err.toString(), classes:'red'});
-                if(err.response && err.response.data) console.log(err.response.data.message);
+                // M.toast({ html: 'Error:' + err.toString(), classes:'red'});
+                else if(err.response && err.response.data) console.log(err.response.data.message);
                 M.toast({html: err?.response?.data?.message, classes: 'red'});
             });
     };

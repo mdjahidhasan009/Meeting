@@ -9,8 +9,6 @@ const useAuthenticated = () => {
     const token = localStorage.getItem('Token');
     if(token) setIsAuthenticated(true);
     else setIsAuthenticated(false);
-    console.log(location.pathname)
-    console.log(token)
     //eslint-disable-next-line
   }, [ location.pathname ]);
 

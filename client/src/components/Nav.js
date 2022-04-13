@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import M from "materialize-css";
 
 import useAuthenticated from "../hooks/useAuthentication";
-import './Navbar.css';
 
 const Navbar = () => {
   let isAuthenticated = useAuthenticated();
@@ -19,7 +18,7 @@ const Navbar = () => {
      <>
        <nav className="nav-extended">
          <div className="nav-wrapper">
-           <Link to="#" className="brand-logo">Meeting</Link>
+           <Link to="#" className="brand-logo" style={{ "margin-left" : "10px" }}>Meeting</Link>
            <Link to="#" data-target="mobile-demo" className="sidenav-trigger">
              <i className="fa fa-bars" aria-hidden="true" />
            </Link>
