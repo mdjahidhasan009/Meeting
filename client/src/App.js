@@ -7,7 +7,6 @@ import Navbar from './components/Nav';
 import Routes from "./routing/Routes";
 
 function App() {
-
   return (
       <BrowserRouter>
         <Navbar />
@@ -15,11 +14,6 @@ function App() {
           <Switch>
             <Route path="/warning" exact component={ Warning } />
             <Route exact component={ Routes } />
-
-            {/*<Route path='/' exact component={ DashboardScreen } />*/}
-            {/*<Route path="/login" exact component={ LoginScreen } />*/}
-            {/*<Route path="/register" exact component={ RegisterScreen } />*/}
-            {/*<Route path="/room/:roomId" component={ RoomScreen } />*/}
           </Switch>
         </main>
 
