@@ -4,9 +4,11 @@ const Video = (props) => {
     const ref = useRef();
 
     useEffect(() => {
-        props.peer.peer.on("stream", stream => {
-            ref.current.srcObject = stream;
-        });
+        if (props.peer && props.peer.peer) {
+            props.peer.peer.on("stream", stream => {
+                ref.current.srcObject = stream;
+            });
+        }
         //eslint-disable-next-line
     }, []);
 
