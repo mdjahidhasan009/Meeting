@@ -23,25 +23,24 @@ router.post('/register', async (req, res) => {
             message: 'User created!'
         })
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 });
 
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log(email);
-        console.log(password);
+
         const user = await User.findOne({ email });
         if(!user) return res.status(400).json({ message: 'Email or password does not match' });
+
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch) return res.status(400).json({ message: 'Email or password does not match' });
+
         const token = await jwt.sign(user.id, process.env.SECRET);
-        console.log('login will pass1')
         res.json(token);
-        console.log('login will pass2')
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 });
 

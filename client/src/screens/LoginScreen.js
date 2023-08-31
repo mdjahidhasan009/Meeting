@@ -21,17 +21,14 @@ const LoginScreen = (props) => {
             // }, {withCredentials: true})
             .then((response) => {
                 localStorage.setItem("Token", response.data);
-                console.log(localStorage.getItem("Token"));
                 M.toast({html: 'Login Successful', classes: 'green'});
                 props.history.push("/");
             })
             .catch((err) => {
-                if(err && err.response) M.toast({ html: 'Error:' + err.toString(), classes:'red'});
-                else if(err && err.response && err.response.data)
-                    M.toast({ html: 'Error:' + err.response.data.message.toString() + "88\n", classes:'red'});
-                // M.toast({ html: 'Error:' + err.toString(), classes:'red'});
-                else if(err.response && err.response.data) console.log(err.response.data.message);
-                M.toast({html: err?.response?.data?.message, classes: 'red'});
+                if(err.response && err?.response?.data?.message)
+                    M.toast({html: err?.response?.data?.message, classes: 'red'});
+                else
+                    M.toast({ html: 'Error:' + "Internal Server Error", classes:'red'});
             });
     };
 

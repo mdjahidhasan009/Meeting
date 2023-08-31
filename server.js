@@ -71,7 +71,7 @@ io.use(async (socket, next) => {
 io.on('connection', socket => {
     console.log('Some one joined socketId: ' + socket.id);
     socket.on("joinRoom", roomId=> {
-        console.log('Joined roomId: ' + roomId + " socketId: " + socket.id + ' userId: ' + socket.userId);
+        // console.log('Joined roomId: ' + roomId + " socketId: " + socket.id + ' userId: ' + socket.userId);
         if (usersInRoom[roomId]) {
             usersInRoom[roomId].push(socket.id);
         } else {
@@ -85,7 +85,7 @@ io.on('connection', socket => {
 
     //client send this signal to sever and sever will send to other user of peerId(callerId is peer id)
     socket.on("sendingSignal", payload => {
-        console.log(payload.callerId);
+        console.log('console.log before sending userJoined', payload.callerId);
         io.to(payload.userIdToSendSignal).emit('userJoined', { signal: payload.signal, callerId: payload.callerId });
     });
 
